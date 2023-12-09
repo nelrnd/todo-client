@@ -82,6 +82,8 @@ const TaskList = () => {
 }
 
 const Task = ({ task }) => {
+  const [editMode, setEditMode] = useState(false)
+
   const handleCheck = (event) => {
     const done = event.target.checked
     const options = {}
@@ -93,8 +95,8 @@ const Task = ({ task }) => {
     )
   }
 
-  const handleEdit = () => {
-    console.log("edited")
+  const handleEditToggle = () => {
+    setEditMode(!editMode)
   }
 
   const handleDelete = () => {
@@ -114,13 +116,43 @@ const Task = ({ task }) => {
             onChange={handleCheck}
             defaultChecked={task.done}
           />
-          <span>{task.name}</span>
+          {editMode ? <TaskEditForm task={task} /> : <span>{task.name}</span>}
         </label>
       </div>
 
-      <button onClick={handleEdit}>Edit</button>
+      <button onClick={handleEditToggle}>{editMode ? "Close" : "Edit"}</button>
       <button onClick={handleDelete}>Delete</button>
     </div>
+  )
+}
+
+const TaskEditForm = ({ task }) => {
+  const [newName, setNewName] = useState(task.name)
+
+  const handleNewNameChange = (event) => setNewName(event.target.value)
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    const options = {}
+    options.method = "PUT"
+    options.headers = { "Content-Type": "application/json" }
+    options.body = JSON.stringify({ name: newName })
+    fetch(`${API_BASE}/tasks/${task._id}`, options)
+      .then(() => location.reload())
+      .catch((err) => console.error(err))
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        name="name"
+        value={newName}
+        onChange={handleNewNameChange}
+      />
+      <button>Update</button>
+    </form>
   )
 }
 
