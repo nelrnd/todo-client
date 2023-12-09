@@ -59,6 +59,14 @@ const Task = ({ task }) => {
     )
   }
 
+  const handleDelete = () => {
+    const options = {}
+    options.method = "DELETE"
+    fetch(`${API_BASE}/tasks/${task._id}`, options)
+      .then(() => location.reload())
+      .catch((err) => console.error(err))
+  }
+
   return (
     <div>
       <label>
@@ -69,6 +77,8 @@ const Task = ({ task }) => {
         />
         <span>{task.name}</span>
       </label>
+
+      <button onClick={handleDelete}>Delete</button>
     </div>
   )
 }
