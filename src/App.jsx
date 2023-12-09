@@ -47,6 +47,30 @@ const App = () => {
   )
 }
 
-const Task = ({ task }) => <div>{task.name}</div>
+const Task = ({ task }) => {
+  const handleCheck = (event) => {
+    const done = event.target.checked
+    const options = {}
+    options.method = "PUT"
+    options.headers = { "Content-Type": "application/json" }
+    options.body = JSON.stringify({ done })
+    fetch(`${API_BASE}/tasks/${task._id}`, options).catch((err) =>
+      console.error(err)
+    )
+  }
+
+  return (
+    <div>
+      <label>
+        <input
+          type="checkbox"
+          onChange={handleCheck}
+          defaultChecked={task.done}
+        />
+        <span>{task.name}</span>
+      </label>
+    </div>
+  )
+}
 
 export default App
