@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import * as Dialog from "@radix-ui/react-dialog"
+import * as Menu from "@radix-ui/react-dropdown-menu"
 
 const API_BASE = import.meta.env.VITE_API_BASE
 
@@ -96,7 +97,7 @@ const Task = ({ task }) => {
   }
 
   return (
-    <div className="p-3 flex gap-2 border-b border-gray-200 last-of-type:border-b-0">
+    <div className="p-3 flex items-center gap-2 border-b border-gray-200 last-of-type:border-b-0">
       <div className="flex-1">
         <label className="inline-flex gap-2 items-center">
           <input
@@ -108,9 +109,34 @@ const Task = ({ task }) => {
         </label>
       </div>
 
-      <TaskEditModal task={task} />
-      <TaskDeleteModal task={task} />
+      <TaskMenu task={task} />
     </div>
+  )
+}
+
+const TaskMenu = ({ task }) => {
+  return (
+    <Menu.Root>
+      <Menu.Trigger asChild>
+        <button className="w-8 h-8 block px-2.5 py-1.5 rounded-sm border border-gray-200 hover:bg-gray-200">
+          <div className="-translate-y-1 text-gray-500">...</div>
+        </button>
+      </Menu.Trigger>
+
+      <Menu.Portal>
+        <Menu.Content className="bg-white shadow shadow-modal p-2">
+          <Menu.Arrow className="fill-white" />
+          <div className="flex flex-col gap-2">
+            <Menu.Item asChild>
+              <TaskEditModal task={task} />
+            </Menu.Item>
+            <Menu.Item asChild>
+              <TaskDeleteModal task={task} />
+            </Menu.Item>
+          </div>
+        </Menu.Content>
+      </Menu.Portal>
+    </Menu.Root>
   )
 }
 
@@ -134,7 +160,9 @@ const TaskEditModal = ({ task }) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <button>Edit</button>
+        <button className="block w-full font-semibold text-sm text-gray-500 bg-gray-100 hover:bg-gray-200 px-6 py-2">
+          Edit
+        </button>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-black bg-opacity-20 fixed inset-0" />
@@ -182,7 +210,9 @@ const TaskDeleteModal = ({ task }) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <button>Delete</button>
+        <button className="block w-full font-semibold text-sm text-white bg-red-500 hover:bg-red-600 px-4 py-2">
+          Delete
+        </button>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-black bg-opacity-20 fixed inset-0" />
@@ -215,32 +245,5 @@ const TaskDeleteModal = ({ task }) => {
     </Dialog.Root>
   )
 }
-
-/*
-
-const TaskEditModal = ({ task }) => {
-
-
-  return (
-    <Dialog.Root>
-      <Dialog.Trigger asChild>
-        <button>Delete</button>
-      </Dialog.Trigger>
-
-      <Dialog.Portal>
-        <Dialog.Overlay />
-        <Dialog.Content>
-          <Dialog.Title>Edit task</Dialog.Title>
-          <Dialog.Description />
-          <Dialog.Close />
-          <p>Hello?</p>
-
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
-  )
-}
-
-*/
 
 export default App
