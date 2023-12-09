@@ -4,7 +4,7 @@ const API_BASE = import.meta.env.VITE_API_BASE
 
 const App = () => {
   return (
-    <div className="min-h-screen px-4 py-8">
+    <div className="px-4 py-8">
       <div className="max-w-lg m-auto">
         <Header />
 
@@ -50,6 +50,7 @@ const TaskForm = () => {
           placeholder="Add a task"
           value={name}
           onChange={handleNameChange}
+          autoFocus
         />
         <button className="font-semibold text-white bg-blue-700 hover:bg-blue-800 px-6">
           Submit
