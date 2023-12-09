@@ -3,8 +3,27 @@ import { useState, useEffect } from "react"
 const API_BASE = import.meta.env.VITE_API_BASE
 
 const App = () => {
+  return (
+    <div className="min-h-screen px-4 py-8">
+      <div className="max-w-lg m-auto">
+        <Header />
+
+        <TaskForm />
+
+        <TaskList />
+      </div>
+    </div>
+  )
+}
+
+const Header = () => (
+  <header>
+    <h1 className="font-bold text-4xl text-center mb-8">ToDo List</h1>
+  </header>
+)
+
+const TaskForm = () => {
   const [name, setName] = useState("")
-  const [tasks, setTasks] = useState()
 
   const handleNameChange = (event) => setName(event.target.value)
 
@@ -21,6 +40,28 @@ const App = () => {
       .catch((err) => console.error(err))
   }
 
+  return (
+    <form onSubmit={handleSubmit} className="m-auto mb-4">
+      <div className="flex gap-2">
+        <input
+          className="flex-1 p-3"
+          type="text"
+          name="name"
+          placeholder="Add a task"
+          value={name}
+          onChange={handleNameChange}
+        />
+        <button className="font-semibold text-white bg-blue-700 hover:bg-blue-800 px-6">
+          Submit
+        </button>
+      </div>
+    </form>
+  )
+}
+
+const TaskList = () => {
+  const [tasks, setTasks] = useState()
+
   useEffect(() => {
     fetch(`${API_BASE}/tasks`)
       .then((res) => res.json())
@@ -29,29 +70,13 @@ const App = () => {
   }, [])
 
   return (
-    <div className="min-h-screen px-4 py-8">
-      <div className="max-w-lg m-auto">
-        <h1 className="font-bold text-4xl text-center mb-8">ToDo List</h1>
-        <form onSubmit={handleSubmit} className="m-auto">
-          <div className="flex gap-2">
-            <input
-              className="flex-1"
-              type="text"
-              name="name"
-              placeholder="Add a task"
-              value={name}
-              onChange={handleNameChange}
-            />
-            <button className="font-semibold text-white bg-blue-700 hover:bg-blue-800 px-6">
-              Submit
-            </button>
-          </div>
-        </form>
-
-        <div>
-          {tasks && tasks.map((task) => <Task key={task._id} task={task} />)}
-        </div>
-      </div>
+    <div className="flex flex-col gap-2">
+      {tasks &&
+        (tasks.length === 0 ? (
+          <p className="text-gray-400 text-center">No tasks added yet...</p>
+        ) : (
+          tasks.map((task) => <Task key={task._id} task={task} />)
+        ))}
     </div>
   )
 }
@@ -81,15 +106,17 @@ const Task = ({ task }) => {
   }
 
   return (
-    <div>
-      <label>
-        <input
-          type="checkbox"
-          onChange={handleCheck}
-          defaultChecked={task.done}
-        />
-        <span>{task.name}</span>
-      </label>
+    <div className="p-3 flex gap-2 border-b border-gray-200 last-of-type:border-b-0">
+      <div className="flex-1">
+        <label className="inline-flex gap-2 items-center">
+          <input
+            type="checkbox"
+            onChange={handleCheck}
+            defaultChecked={task.done}
+          />
+          <span>{task.name}</span>
+        </label>
+      </div>
 
       <button onClick={handleEdit}>Edit</button>
       <button onClick={handleDelete}>Delete</button>
