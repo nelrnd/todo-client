@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import * as Dialog from "@radix-ui/react-dialog"
 
 const API_BASE = import.meta.env.VITE_API_BASE
 
@@ -83,8 +84,6 @@ const TaskList = () => {
 }
 
 const Task = ({ task }) => {
-  const [editMode, setEditMode] = useState(false)
-
   const handleCheck = (event) => {
     const done = event.target.checked
     const options = {}
@@ -96,18 +95,6 @@ const Task = ({ task }) => {
     )
   }
 
-  const handleEditToggle = () => {
-    setEditMode(!editMode)
-  }
-
-  const handleDelete = () => {
-    const options = {}
-    options.method = "DELETE"
-    fetch(`${API_BASE}/tasks/${task._id}`, options)
-      .then(() => location.reload())
-      .catch((err) => console.error(err))
-  }
-
   return (
     <div className="p-3 flex gap-2 border-b border-gray-200 last-of-type:border-b-0">
       <div className="flex-1">
@@ -117,17 +104,17 @@ const Task = ({ task }) => {
             onChange={handleCheck}
             defaultChecked={task.done}
           />
-          {editMode ? <TaskEditForm task={task} /> : <span>{task.name}</span>}
+          <span>{task.name}</span>
         </label>
       </div>
 
-      <button onClick={handleEditToggle}>{editMode ? "Close" : "Edit"}</button>
-      <button onClick={handleDelete}>Delete</button>
+      <TaskEditModal task={task} />
+      <TaskDeleteModal task={task} />
     </div>
   )
 }
 
-const TaskEditForm = ({ task }) => {
+const TaskEditModal = ({ task }) => {
   const [newName, setNewName] = useState(task.name)
 
   const handleNewNameChange = (event) => setNewName(event.target.value)
@@ -145,16 +132,115 @@ const TaskEditForm = ({ task }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="name"
-        value={newName}
-        onChange={handleNewNameChange}
-      />
-      <button>Update</button>
-    </form>
+    <Dialog.Root>
+      <Dialog.Trigger asChild>
+        <button>Edit</button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="bg-black bg-opacity-20 fixed inset-0" />
+        <Dialog.Content className="bg-white fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-sm w-11/12 shadow-sm p-6">
+          <Dialog.Title className="font-bold text-2xl mb-4">
+            Edit task
+          </Dialog.Title>
+          <form onSubmit={handleSubmit}>
+            <input
+              className="block w-full mb-4"
+              type="text"
+              name="name"
+              value={newName}
+              onChange={handleNewNameChange}
+            />
+            <div className="flex justify-end gap-4">
+              <Dialog.Close asChild>
+                <button
+                  type="button"
+                  className="font-semibold text-gray-500 bg-gray-100 hover:bg-gray-200 px-6 py-2"
+                >
+                  Close
+                </button>
+              </Dialog.Close>
+              <button className="font-semibold text-white bg-blue-700 hover:bg-blue-800 px-6 py-2">
+                Save
+              </button>
+            </div>
+          </form>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   )
 }
+
+const TaskDeleteModal = ({ task }) => {
+  const handleDelete = () => {
+    const options = {}
+    options.method = "DELETE"
+    fetch(`${API_BASE}/tasks/${task._id}`, options)
+      .then(() => location.reload())
+      .catch((err) => console.error(err))
+  }
+
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild>
+        <button>Delete</button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="bg-black bg-opacity-20 fixed inset-0" />
+        <Dialog.Content className="bg-white fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-sm w-11/12 shadow-sm p-6">
+          <Dialog.Title className="font-bold text-2xl mb-4">
+            Delete task
+          </Dialog.Title>
+          <p className="text-gray-600 mb-4">
+            Do you really want to delete that{" "}
+            <span className="text-black">"{task.name}"</span> task?
+          </p>
+          <div className="flex justify-end gap-4">
+            <Dialog.Close asChild>
+              <button
+                type="button"
+                className="font-semibold text-gray-500 bg-gray-100 hover:bg-gray-200 px-6 py-2"
+              >
+                Close
+              </button>
+            </Dialog.Close>
+            <button
+              onClick={handleDelete}
+              className="font-semibold text-white bg-red-500 hover:bg-red-600 px-6 py-2"
+            >
+              Delete
+            </button>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+
+/*
+
+const TaskEditModal = ({ task }) => {
+
+
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild>
+        <button>Delete</button>
+      </Dialog.Trigger>
+
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          <Dialog.Title>Edit task</Dialog.Title>
+          <Dialog.Description />
+          <Dialog.Close />
+          <p>Hello?</p>
+
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+
+*/
 
 export default App

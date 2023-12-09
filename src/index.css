@@ -7,3 +7,7 @@
     height: 100svh;
   }
 }
+
+:root {
+  font-size: 18px;
+}
