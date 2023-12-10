@@ -1,14 +1,17 @@
+import { useState } from "react"
 import TaskMenu from "./TaskMenu"
 
 const API_BASE = import.meta.env.VITE_API_BASE
 
 const Task = ({ task }) => {
+  const [checked, setChecked] = useState(task.done)
+
   const handleCheck = (event) => {
-    const done = event.target.checked
+    setChecked(event.target.checked)
     const options = {}
     options.method = "PUT"
     options.headers = { "Content-Type": "application/json" }
-    options.body = JSON.stringify({ done })
+    options.body = JSON.stringify({ done: event.target.checked })
     fetch(`${API_BASE}/tasks/${task._id}`, options).catch((err) =>
       console.error(err)
     )
@@ -23,7 +26,9 @@ const Task = ({ task }) => {
             onChange={handleCheck}
             defaultChecked={task.done}
           />
-          <span>{task.name}</span>
+          <span className={checked && "text-gray-400 line-through"}>
+            {task.name}
+          </span>
         </label>
       </div>
 
