@@ -8,6 +8,7 @@ const Task = ({ task }) => {
 
   const handleCheck = (event) => {
     setChecked(event.target.checked)
+    task.done = event.target.checked
     const options = {}
     options.method = "PUT"
     options.headers = { "Content-Type": "application/json" }
@@ -26,7 +27,7 @@ const Task = ({ task }) => {
             onChange={handleCheck}
             defaultChecked={task.done}
           />
-          <span className={checked && "text-gray-400 line-through"}>
+          <span className={checked ? "text-gray-400 line-through" : ""}>
             {task.name}
           </span>
         </label>
