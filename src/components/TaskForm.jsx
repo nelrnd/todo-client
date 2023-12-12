@@ -24,15 +24,16 @@ const TaskForm = () => {
     <form onSubmit={handleSubmit} className="m-auto mb-4">
       <div className="flex gap-2">
         <input
-          className="flex-1 p-3"
+          className="flex-1 p-3 rounded border-gray-300"
           type="text"
           name="name"
+          autoComplete="off"
           placeholder="Add a task"
           value={name}
           onChange={handleNameChange}
           autoFocus
         />
-        <button className="font-semibold text-white bg-blue-700 hover:bg-blue-800 px-6">
+        <button className="font-semibold rounded text-white bg-blue-700 hover:bg-blue-800 px-6">
           Submit
         </button>
       </div>

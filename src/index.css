@@ -8,7 +8,7 @@
   }
 
   .RadioGroupIndicator {
-    @apply absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-full bg-gray-400;
+    @apply absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-full bg-gray-400 rounded;
   }
 }
 

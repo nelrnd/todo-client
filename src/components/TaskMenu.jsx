@@ -40,7 +40,7 @@ const TaskMenu = ({ task }) => {
             event.preventDefault()
           }
         }}
-        className="bg-white shadow shadow-menu p-2 translate-y-1 z-10"
+        className="bg-white rounded-md shadow shadow-menu p-2 translate-y-1 z-10"
       >
         <div className="flex flex-col gap-2">
           <TaskEditDialog
@@ -80,7 +80,7 @@ const DialogItem = React.forwardRef((props, forwardedRef) => {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-black bg-opacity-20 fixed inset-0" />
-        <Dialog.Content className="bg-white fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-sm w-11/12 shadow-sm p-6">
+        <Dialog.Content className="bg-white fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-sm w-11/12 rounded-lg shadow-xl p-6">
           {children}
         </Dialog.Content>
       </Dialog.Portal>
@@ -110,7 +110,7 @@ const TaskEditDialog = ({ task, onSelect, onOpenChange }) => {
   return (
     <DialogItem
       triggerChildren={
-        <button className="block w-full font-semibold text-sm text-gray-500 bg-gray-100 hover:bg-gray-200 px-6 py-2">
+        <button className="block w-full font-semibold text-sm text-gray-500 bg-gray-100 hover:bg-gray-200 px-6 py-2 rounded">
           Edit
         </button>
       }
@@ -120,7 +120,7 @@ const TaskEditDialog = ({ task, onSelect, onOpenChange }) => {
       <Dialog.Title className="font-bold text-2xl mb-4">Edit task</Dialog.Title>
       <form onSubmit={handleSubmit}>
         <input
-          className="block w-full mb-4"
+          className="block w-full mb-4 rounded border-gray-300"
           type="text"
           name="name"
           value={newName}
@@ -130,12 +130,12 @@ const TaskEditDialog = ({ task, onSelect, onOpenChange }) => {
           <Dialog.Close asChild>
             <button
               type="button"
-              className="font-semibold text-gray-500 bg-gray-100 hover:bg-gray-200 px-6 py-2"
+              className="font-semibold text-gray-500 bg-gray-100 hover:bg-gray-200 px-6 py-2 rounded"
             >
               Close
             </button>
           </Dialog.Close>
-          <button className="font-semibold text-white bg-blue-700 hover:bg-blue-800 px-6 py-2">
+          <button className="font-semibold text-white bg-blue-700 hover:bg-blue-800 px-6 py-2 rounded">
             Save
           </button>
         </div>
@@ -155,7 +155,7 @@ const TaskDeleteDialog = ({ task, onSelect, onOpenChange }) => {
   return (
     <DialogItem
       triggerChildren={
-        <button className="block w-full font-semibold text-sm text-white bg-red-500 hover:bg-red-600 px-4 py-2">
+        <button className="block w-full font-semibold text-sm text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded">
           Delete
         </button>
       }
@@ -173,14 +173,14 @@ const TaskDeleteDialog = ({ task, onSelect, onOpenChange }) => {
         <Dialog.Close asChild>
           <button
             type="button"
-            className="font-semibold text-gray-500 bg-gray-100 hover:bg-gray-200 px-6 py-2"
+            className="font-semibold text-gray-500 bg-gray-100 hover:bg-gray-200 px-6 py-2 rounded"
           >
             Close
           </button>
         </Dialog.Close>
         <button
           onClick={handleDelete}
-          className="font-semibold text-white bg-red-500 hover:bg-red-600 px-6 py-2"
+          className="font-semibold text-white bg-red-500 hover:bg-red-600 px-6 py-2 rounded"
         >
           Delete
         </button>

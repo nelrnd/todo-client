@@ -33,7 +33,7 @@ const TaskList = () => {
   return (
     <div className="flex flex-col gap-2">
       <RadioGroup.Root
-        className="flex gap-3"
+        className="flex gap-1"
         defaultValue="all"
         onValueChange={handleValueChange}
       >
