@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import * as RadioGroup from "@radix-ui/react-radio-group"
 import Task from "./Task"
+import moment from "moment"
 
 const API_BASE = import.meta.env.VITE_API_BASE
 
@@ -12,6 +13,12 @@ const TaskList = () => {
   const [tasks, setTasks] = useState()
 
   const [filter, setFilter] = useState(() => allFilter)
+
+  const groupedTasks = !tasks
+    ? null
+    : Object.groupBy(tasks.filter(filter), ({ timestamp }) =>
+        timestamp.toString().slice(0, 10)
+      )
 
   const handleValueChange = (value) => {
     if (value === "active") {
@@ -61,12 +68,28 @@ const TaskList = () => {
         (tasks.length === 0 ? (
           <p className="text-gray-400 text-center">No tasks added yet...</p>
         ) : (
-          tasks
-            .filter(filter)
-            .map((task) => <Task key={task._id} task={task} />)
+          Object.keys(groupedTasks).map((group) => (
+            <div key={group} className="relative">
+              <Day timestamp={group} />
+              {groupedTasks[group].map((task) => (
+                <Task key={task._id} task={task} />
+              ))}
+            </div>
+          ))
         ))}
     </div>
   )
 }
+
+const Day = ({ timestamp }) => (
+  <div className="sticky top-4 w-fit mb-2 px-3 py-0.5 pb-1 rounded-full m-auto bg-gray-100">
+    <time dateTime={timestamp} className="text-gray-400 text-sm inline">
+      {timestamp.toString().slice(0, 10) ===
+      new Date().toISOString().slice(0, 10)
+        ? "Today"
+        : moment(timestamp).format("dddd D")}
+    </time>
+  </div>
+)
 
 export default TaskList
