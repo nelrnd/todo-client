@@ -2,12 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .RadioGroupItem {
+    @apply p-2 rounded data-[state=checked]:font-semibold data-[state=unchecked]:text-gray-500 hover:bg-gray-100;
+  }
+
+  .RadioGroupIndicator {
+    @apply absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-full bg-gray-400;
+  }
+}
+
 @layer utilities {
   .min-h-screen {
     height: 100svh;
   }
 
-  .shadow-modal {
+  .shadow-menu {
     box-shadow: 0px 0px 20px 4px rgba(0, 0, 0, 0.15);
   }
 }

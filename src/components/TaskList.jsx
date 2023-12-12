@@ -37,23 +37,23 @@ const TaskList = () => {
         defaultValue="all"
         onValueChange={handleValueChange}
       >
-        <RadioGroup.Item
-          value="all"
-          className="data-[state=unchecked]:text-gray-500"
-        >
-          All
+        <RadioGroup.Item value="all" className="RadioGroupItem">
+          <div className="relative w-fit">
+            All
+            <RadioGroup.Indicator className="RadioGroupIndicator" />
+          </div>
         </RadioGroup.Item>
-        <RadioGroup.Item
-          value="active"
-          className="data-[state=unchecked]:text-gray-500"
-        >
-          Active
+        <RadioGroup.Item value="active" className="RadioGroupItem">
+          <div className="relative w-fit">
+            Active
+            <RadioGroup.Indicator className="RadioGroupIndicator" />
+          </div>
         </RadioGroup.Item>
-        <RadioGroup.Item
-          value="completed"
-          className="data-[state=unchecked]:text-gray-500"
-        >
-          Completed
+        <RadioGroup.Item value="completed" className="RadioGroupItem">
+          <div className="relative w-fit">
+            Completed
+            <RadioGroup.Indicator className="RadioGroupIndicator" />
+          </div>
         </RadioGroup.Item>
       </RadioGroup.Root>
 

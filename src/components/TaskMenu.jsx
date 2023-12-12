@@ -40,7 +40,7 @@ const TaskMenu = ({ task }) => {
             event.preventDefault()
           }
         }}
-        className="bg-white shadow shadow-modal p-2 translate-y-1 z-10"
+        className="bg-white shadow shadow-menu p-2 translate-y-1 z-10"
       >
         <div className="flex flex-col gap-2">
           <TaskEditDialog
