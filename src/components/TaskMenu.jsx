@@ -40,7 +40,7 @@ const TaskMenu = ({ task }) => {
             event.preventDefault()
           }
         }}
-        className="bg-white rounded-md shadow shadow-menu p-2 translate-y-1 z-10"
+        className="bg-white rounded-md shadow shadow-menu p-2 translate-y-1 z-10 animate-menu-content"
       >
         <div className="flex flex-col gap-2">
           <TaskEditDialog
@@ -80,7 +80,7 @@ const DialogItem = React.forwardRef((props, forwardedRef) => {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-black bg-opacity-20 fixed inset-0" />
-        <Dialog.Content className="bg-white fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-sm w-11/12 rounded-lg shadow-xl p-6">
+        <Dialog.Content className="bg-white fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-sm w-11/12 rounded-lg shadow-xl p-6 animate-dialog-content">
           {children}
         </Dialog.Content>
       </Dialog.Portal>
