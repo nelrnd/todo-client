@@ -26,6 +26,7 @@ const Task = ({ task }) => {
             type="checkbox"
             onChange={handleCheck}
             defaultChecked={task.done}
+            className="bg-transparent"
           />
           <span className={checked ? "text-gray-400 line-through" : ""}>
             {task.name}

@@ -82,7 +82,7 @@ const TaskList = () => {
 }
 
 const Day = ({ timestamp }) => (
-  <div className="sticky top-4 w-fit mb-2 px-3 py-0.5 pb-1 rounded-full m-auto bg-gray-100">
+  <div className="sticky top-4 w-fit mb-2 px-3 py-0.5 pb-1 rounded-full m-auto bg-gray-100 dark:bg-gray-900">
     <time dateTime={timestamp} className="text-gray-400 text-sm inline">
       {timestamp.toString().slice(0, 10) ===
       new Date().toISOString().slice(0, 10)

@@ -24,7 +24,7 @@ const TaskForm = () => {
     <form onSubmit={handleSubmit} className="m-auto mb-4">
       <div className="flex gap-2">
         <input
-          className="flex-1 p-3 rounded border-gray-300"
+          className="flex-1 p-3 rounded bg-transparent border-gray-300 dark:border-gray-700"
           type="text"
           name="name"
           autoComplete="off"

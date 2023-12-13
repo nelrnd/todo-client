@@ -4,7 +4,7 @@
 
 @layer components {
   .RadioGroupItem {
-    @apply p-2 rounded data-[state=checked]:font-semibold data-[state=unchecked]:text-gray-500 hover:bg-gray-100;
+    @apply p-2 rounded data-[state=checked]:font-semibold data-[state=unchecked]:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-900;
   }
 
   .RadioGroupIndicator {
@@ -14,7 +14,7 @@
 
 @layer utilities {
   .min-h-screen {
-    height: 100svh;
+    min-height: 100svh;
   }
 
   .shadow-menu {
