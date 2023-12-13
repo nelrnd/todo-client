@@ -19,7 +19,7 @@ const Task = ({ task }) => {
   }
 
   return (
-    <div className="p-3 flex items-center gap-2 border-b border-gray-200 last-of-type:border-b-0">
+    <div className="p-3 flex items-center gap-2 border-b border-gray-200 dark:border-gray-600 last-of-type:border-b-0">
       <div className="flex-1">
         <label className="inline-flex gap-2 items-center">
           <input
