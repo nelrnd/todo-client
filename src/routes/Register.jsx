@@ -1,16 +1,34 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import FormError from "../components/FormError"
+
+const API_BASE = import.meta.env.VITE_API_BASE
 
 const Register = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [errors, setErrors] = useState([])
 
   const handleEmailChange = (event) => setEmail(event.target.value)
   const handlePasswordChange = (event) => setPassword(event.target.value)
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log({ email, password })
+    const opts = {}
+    opts.method = "POST"
+    opts.headers = { "Content-Type": "application/json" }
+    opts.body = JSON.stringify({ email, password })
+    fetch(`${API_BASE}/register`, opts)
+      .then((res) => res.json())
+      .then((data) => {
+        const { errors, token } = data
+        setErrors(errors || [])
+
+        if (token) {
+          console.log(token)
+        }
+      })
+      .catch((err) => console.error(err))
   }
 
   return (
@@ -27,6 +45,9 @@ const Register = () => {
               onChange={handleEmailChange}
               required
             />
+            {findError(errors, "email") && (
+              <FormError msg={findError(errors, "email").msg} />
+            )}
           </label>
           <label>
             <span>Password</span>
@@ -37,6 +58,9 @@ const Register = () => {
               onChange={handlePasswordChange}
               required
             />
+            {findError(errors, "password") && (
+              <FormError msg={findError(errors, "password").msg} />
+            )}
           </label>
           <button className="mt-2 font-semibold rounded text-white bg-blue-700 hover:bg-blue-800 px-6 py-3">
             Sign up
@@ -52,5 +76,7 @@ const Register = () => {
     </div>
   )
 }
+
+const findError = (errors, path) => errors.find((err) => err.path === path)
 
 export default Register
