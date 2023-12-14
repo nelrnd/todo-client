@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import FormError from "../components/FormError"
 
 const API_BASE = import.meta.env.VITE_API_BASE
@@ -8,6 +8,12 @@ const Register = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState([])
+  const navigate = useNavigate()
+
+  const token = localStorage.getItem("token")
+  if (token) {
+    return <Navigate to="/" />
+  }
 
   const handleEmailChange = (event) => setEmail(event.target.value)
   const handlePasswordChange = (event) => setPassword(event.target.value)
@@ -25,7 +31,8 @@ const Register = () => {
         setErrors(errors || [])
 
         if (token) {
-          console.log(token)
+          localStorage.setItem("token", token)
+          navigate("/")
         }
       })
       .catch((err) => console.error(err))

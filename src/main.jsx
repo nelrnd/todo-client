@@ -6,11 +6,16 @@ import Login from "./routes/Login"
 import Register from "./routes/Register"
 import Settings from "./routes/Settings"
 import "./index.css"
+import RouteGuard from "./components/RouteGuard"
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <RouteGuard>
+        <Home />
+      </RouteGuard>
+    ),
   },
   {
     path: "/register",
@@ -22,7 +27,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/settings",
-    element: <Settings />,
+    element: (
+      <RouteGuard>
+        <Settings />
+      </RouteGuard>
+    ),
   },
 ])
 
