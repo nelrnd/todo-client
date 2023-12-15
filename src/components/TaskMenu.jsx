@@ -98,9 +98,13 @@ const TaskEditDialog = ({ task, onSelect, onOpenChange }) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
+    const token = localStorage.getItem("token")
     const options = {}
     options.method = "PUT"
-    options.headers = { "Content-Type": "application/json" }
+    options.headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    }
     options.body = JSON.stringify({ name: newName })
     fetch(`${API_BASE}/tasks/${task._id}`, options)
       .then(() => location.reload())
@@ -146,8 +150,10 @@ const TaskEditDialog = ({ task, onSelect, onOpenChange }) => {
 
 const TaskDeleteDialog = ({ task, onSelect, onOpenChange }) => {
   const handleDelete = () => {
+    const token = localStorage.getItem("token")
     const options = {}
     options.method = "DELETE"
+    options.headers = { Authorization: `Bearer ${token}` }
     fetch(`${API_BASE}/tasks/${task._id}`, options)
       .then(() => location.reload())
       .catch((err) => console.error(err))

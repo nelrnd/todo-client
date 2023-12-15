@@ -9,9 +9,13 @@ const Task = ({ task }) => {
   const handleCheck = (event) => {
     setChecked(event.target.checked)
     task.done = event.target.checked
+    const token = localStorage.getItem("token")
     const options = {}
     options.method = "PUT"
-    options.headers = { "Content-Type": "application/json" }
+    options.headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    }
     options.body = JSON.stringify({ done: event.target.checked })
     fetch(`${API_BASE}/tasks/${task._id}`, options).catch((err) =>
       console.error(err)

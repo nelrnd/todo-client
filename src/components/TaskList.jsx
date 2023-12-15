@@ -31,7 +31,10 @@ const TaskList = () => {
   }
 
   useEffect(() => {
-    fetch(`${API_BASE}/tasks`)
+    const token = localStorage.getItem("token")
+    const options = {}
+    options.headers = { Authorization: `Bearer ${token}` }
+    fetch(`${API_BASE}/tasks`, options)
       .then((res) => res.json())
       .then((data) => setTasks(data))
       .catch((err) => console.error(err))

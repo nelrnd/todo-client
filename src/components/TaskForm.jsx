@@ -10,9 +10,13 @@ const TaskForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
+    const token = localStorage.getItem("token")
     const options = {}
     options.method = "POST"
-    options.headers = { "Content-Type": "application/json" }
+    options.headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    }
     options.body = JSON.stringify({ name })
 
     fetch(`${API_BASE}/tasks`, options)
