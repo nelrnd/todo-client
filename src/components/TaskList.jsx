@@ -14,11 +14,13 @@ const TaskList = () => {
 
   const [filter, setFilter] = useState(() => allFilter)
 
-  const groupedTasks = !tasks
-    ? null
-    : Object.groupBy(tasks.filter(filter), ({ timestamp }) =>
-        timestamp.toString().slice(0, 10)
-      )
+  const groupedFilteredTasks =
+    tasks &&
+    tasks.filter(filter).reduce((a, t) => {
+      ;(a[t.timestamp.toString().slice(0, 10)] =
+        a[t.timestamp.toString().slice(0, 10)] || []).push(t)
+      return a
+    }, {})
 
   const handleValueChange = (value) => {
     if (value === "active") {
@@ -71,10 +73,10 @@ const TaskList = () => {
         (tasks.length === 0 ? (
           <p className="text-gray-400 text-center">No tasks added yet...</p>
         ) : (
-          Object.keys(groupedTasks).map((group) => (
+          Object.keys(groupedFilteredTasks).map((group) => (
             <div key={group} className="relative">
               <Day timestamp={group} />
-              {groupedTasks[group].map((task) => (
+              {groupedFilteredTasks[group].map((task) => (
                 <Task key={task._id} task={task} />
               ))}
             </div>
