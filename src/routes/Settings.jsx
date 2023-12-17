@@ -17,7 +17,7 @@ const Settings = () => {
 
         <button
           onClick={logout}
-          className="block w-full font-semibold text-sm text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded"
+          className="block w-full font-semibold text-sm text-white bg-red-500 hover:bg-red-600 px-4 py-3 rounded"
         >
           Logout
         </button>

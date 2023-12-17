@@ -1,17 +1,22 @@
 import { Link, useLocation } from "react-router-dom"
+import Logo from "../../public/logo.svg"
 
 const Header = () => {
   const location = useLocation()
 
   return (
-    <header className="relative">
-      <Link to="/">
-        <h1 className="font-bold text-4xl text-center mb-8">ToDo List</h1>
+    <header className="flex justify-between items-center mb-8">
+      <Link
+        to="/"
+        className="flex items-center gap-2 hover:opacity-80 dark:hover:opacity-90"
+      >
+        <img src={Logo} alt="" width="32" />
+        <h1 className="font-bold text-3xl">ToDo List</h1>
       </Link>
 
       <Link
         to={location.pathname !== "/settings" ? "/settings" : "/"}
-        className="p-2 rounded absolute top-1/2 right-0 -translate-y-1/2 text-gray-500 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-900"
+        className="p-2 rounded text-gray-500 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-900"
       >
         {location.pathname !== "/settings" ? (
           <svg
