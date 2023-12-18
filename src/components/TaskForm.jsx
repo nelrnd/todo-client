@@ -2,7 +2,7 @@ import { useState } from "react"
 
 const API_BASE = import.meta.env.VITE_API_BASE
 
-const TaskForm = () => {
+const TaskForm = ({ addTask }) => {
   const [name, setName] = useState("")
 
   const handleNameChange = (event) => setName(event.target.value)
@@ -11,17 +11,22 @@ const TaskForm = () => {
     event.preventDefault()
 
     const token = localStorage.getItem("token")
-    const options = {}
-    options.method = "POST"
-    options.headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+    if (token) {
+      const options = {}
+      options.method = "POST"
+      options.headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }
+      options.body = JSON.stringify({ name })
+      fetch(`${API_BASE}/tasks`, options)
+        .then((res) => res.json())
+        .then((data) => {
+          addTask(data)
+          setName("")
+        })
+        .catch((err) => console.error(err))
     }
-    options.body = JSON.stringify({ name })
-
-    fetch(`${API_BASE}/tasks`, options)
-      .then(() => location.reload())
-      .catch((err) => console.error(err))
   }
 
   return (

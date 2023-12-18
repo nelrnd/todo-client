@@ -1,17 +1,13 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import * as RadioGroup from "@radix-ui/react-radio-group"
 import Task from "./Task"
 import moment from "moment"
-
-const API_BASE = import.meta.env.VITE_API_BASE
 
 const allFilter = () => true
 const activeFilter = (task) => !task.done
 const completedFilter = (task) => task.done
 
-const TaskList = () => {
-  const [tasks, setTasks] = useState()
-
+const TaskList = ({ tasks }) => {
   const [filter, setFilter] = useState(() => allFilter)
 
   const groupedFilteredTasks =
@@ -31,16 +27,6 @@ const TaskList = () => {
       setFilter(() => allFilter)
     }
   }
-
-  useEffect(() => {
-    const token = localStorage.getItem("token")
-    const options = {}
-    options.headers = { Authorization: `Bearer ${token}` }
-    fetch(`${API_BASE}/tasks`, options)
-      .then((res) => res.json())
-      .then((data) => setTasks(data))
-      .catch((err) => console.error(err))
-  }, [])
 
   return (
     <div className="flex flex-col gap-2">
