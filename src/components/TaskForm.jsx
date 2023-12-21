@@ -9,24 +9,23 @@ const TaskForm = ({ addTask }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-
     const token = localStorage.getItem("token")
-    if (token) {
-      const options = {}
-      options.method = "POST"
-      options.headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      }
-      options.body = JSON.stringify({ name })
-      fetch(`${API_BASE}/tasks`, options)
-        .then((res) => res.json())
-        .then((data) => {
-          addTask(data)
-          setName("")
-        })
-        .catch((err) => console.error(err))
+
+    if (!name || !token) return
+    const options = {}
+    options.method = "POST"
+    options.headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     }
+    options.body = JSON.stringify({ name })
+    fetch(`${API_BASE}/tasks`, options)
+      .then((res) => res.json())
+      .then((data) => {
+        addTask(data)
+        setName("")
+      })
+      .catch((err) => console.error(err))
   }
 
   return (

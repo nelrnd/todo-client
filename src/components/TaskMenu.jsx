@@ -73,7 +73,7 @@ const TaskEditDialog = ({ task, setTasks, onSelect, onOpenChange }) => {
   const handleEdit = (event) => {
     event.preventDefault()
     const token = localStorage.getItem("token")
-    if (!token) return
+    if (!newName || !token) return
 
     const updatedTask = { ...task, name: newName }
     setTasks((prevTasks) =>
@@ -107,6 +107,7 @@ const TaskEditDialog = ({ task, setTasks, onSelect, onOpenChange }) => {
           className="block w-full mb-6 rounded border-gray-300 bg-transparent dark:border-gray-600"
           type="text"
           name="name"
+          required="true"
           value={newName}
           onChange={handleNameChange}
         />
