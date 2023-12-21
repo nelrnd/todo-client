@@ -12,7 +12,11 @@ import { Root } from "./routes/Root"
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: (
+      <RouteGuard>
+        <Root />
+      </RouteGuard>
+    ),
     children: [
       {
         index: true,
@@ -31,14 +35,6 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
-  },
-  {
-    path: "/settings",
-    element: (
-      <RouteGuard>
-        <Settings />
-      </RouteGuard>
-    ),
   },
 ])
 
