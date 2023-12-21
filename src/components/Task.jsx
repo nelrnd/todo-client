@@ -1,31 +1,32 @@
-import { useState } from "react"
 import TaskMenu from "./TaskMenu"
 
 const API_BASE = import.meta.env.VITE_API_BASE
 
-const Task = ({ initialTask }) => {
-  const [task, setTask] = useState(initialTask)
-
+const Task = ({ task, setTasks }) => {
   const handleCheck = (event) => {
-    const updatedTask = { ...task, done: event.target.checked }
-    setTask(updatedTask)
-
     const token = localStorage.getItem("token")
-    if (token) {
-      const options = {}
-      options.method = "PUT"
-      options.headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      }
-      options.body = JSON.stringify({ done: event.target.checked })
-      fetch(`${API_BASE}/tasks/${task._id}`, options).catch((err) =>
-        console.error(err)
-      )
+    if (!token) return
+
+    const updatedTask = { ...task, done: event.target.checked }
+    setTasks((prevTasks) =>
+      prevTasks.map((t) => (t._id === task._id ? updatedTask : t))
+    )
+
+    const options = {}
+    options.method = "PUT"
+    options.headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     }
+    options.body = JSON.stringify({ done: event.target.checked })
+    fetch(`${API_BASE}/tasks/${task._id}`, options).catch((err) =>
+      console.error(err)
+    )
   }
 
-  return task ? (
+  if (!task) return null
+
+  return (
     <div className="p-3 flex items-center gap-2 border-b border-gray-200 dark:border-gray-600 last-of-type:border-b-0">
       <div className="flex-1">
         <label className="inline-flex gap-2 items-center">
@@ -41,9 +42,9 @@ const Task = ({ initialTask }) => {
         </label>
       </div>
 
-      <TaskMenu task={task} setTask={setTask} />
+      <TaskMenu task={task} setTasks={setTasks} />
     </div>
-  ) : null
+  )
 }
 
 export default Task

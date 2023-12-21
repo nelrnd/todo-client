@@ -6,11 +6,11 @@ import Task from "./Task"
 
 const filters = {
   all: () => true,
-  active: (task) => !task.done,
-  completed: (task) => task.done,
+  active: (task) => task && !task.done,
+  completed: (task) => task && task.done,
 }
 
-const TaskList = ({ tasks }) => {
+const TaskList = ({ tasks, setTasks }) => {
   const [filter, setFilter] = useState(() => filters.all)
 
   const currentTasks = tasks
@@ -51,7 +51,7 @@ const TaskList = ({ tasks }) => {
           <div key={dayGroup} className="relative">
             <Day timestamp={dayGroup} />
             {currentTasks[dayGroup].map((task) => (
-              <Task key={task._id} initialTask={task} />
+              <Task key={task._id} task={task} setTasks={setTasks} />
             ))}
           </div>
         ))

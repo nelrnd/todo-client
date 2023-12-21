@@ -4,7 +4,7 @@ import * as Menu from "@radix-ui/react-dropdown-menu"
 
 const API_BASE = import.meta.env.VITE_API_BASE
 
-const TaskMenu = ({ task, setTask }) => {
+const TaskMenu = ({ task, setTasks }) => {
   const [open, setOpen] = useState(false)
   const [hasOpenDialog, setHasOpenDialog] = useState(false)
   const menuTriggerRef = useRef(null)
@@ -46,13 +46,13 @@ const TaskMenu = ({ task, setTask }) => {
         <div className="flex flex-col gap-2">
           <TaskEditDialog
             task={task}
-            setTask={setTask}
+            setTasks={setTasks}
             onSelect={handleDialogItemSelect}
             onOpenChange={handleDialogItemOpenChange}
           />
           <TaskDeleteDialog
             task={task}
-            setTask={setTask}
+            setTasks={setTasks}
             onSelect={handleDialogItemSelect}
             onOpenChange={handleDialogItemOpenChange}
           />
@@ -63,31 +63,33 @@ const TaskMenu = ({ task, setTask }) => {
   )
 }
 
-const TaskEditDialog = ({ task, setTask, onSelect, onOpenChange }) => {
+const TaskEditDialog = ({ task, setTasks, onSelect, onOpenChange }) => {
   const [newName, setNewName] = useState(task.name)
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
 
-  const handleSubmit = (event) => {
+  const handleEdit = (event) => {
     event.preventDefault()
-
-    setTask({ ...task, name: newName })
-
     const token = localStorage.getItem("token")
-    if (token) {
-      const options = {}
-      options.method = "PUT"
-      options.headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      }
-      options.body = JSON.stringify({ name: newName })
-      fetch(`${API_BASE}/tasks/${task._id}`, options).catch((err) =>
-        console.error(err)
-      )
+    if (!token) return
+
+    const updatedTask = { ...task, name: newName }
+    setTasks((prevTasks) =>
+      prevTasks.map((t) => (t._id === task._id ? updatedTask : t))
+    )
+
+    const options = {}
+    options.method = "PUT"
+    options.headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     }
+    options.body = JSON.stringify({ name: newName })
+    fetch(`${API_BASE}/tasks/${task._id}`, options).catch((err) =>
+      console.error(err)
+    )
 
     onOpenChange(false)
   }
@@ -100,7 +102,7 @@ const TaskEditDialog = ({ task, setTask, onSelect, onOpenChange }) => {
     >
       <Dialog.Title className="font-bold text-2xl mb-4">Edit task</Dialog.Title>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleEdit}>
         <input
           className="block w-full mb-6 rounded border-gray-300 bg-transparent dark:border-gray-600"
           type="text"
@@ -129,19 +131,19 @@ const TaskEditDialog = ({ task, setTask, onSelect, onOpenChange }) => {
   )
 }
 
-const TaskDeleteDialog = ({ task, setTask, onSelect, onOpenChange }) => {
+const TaskDeleteDialog = ({ task, setTasks, onSelect, onOpenChange }) => {
   const handleDelete = () => {
-    setTask(null)
-
     const token = localStorage.getItem("token")
-    if (token) {
-      const options = {}
-      options.method = "DELETE"
-      options.headers = { Authorization: `Bearer ${token}` }
-      fetch(`${API_BASE}/tasks/${task._id}`, options).catch((err) =>
-        console.error(err)
-      )
-    }
+    if (!token) return
+
+    setTasks((prevTasks) => prevTasks.filter((t) => t._id !== task._id))
+
+    const options = {}
+    options.method = "DELETE"
+    options.headers = { Authorization: `Bearer ${token}` }
+    fetch(`${API_BASE}/tasks/${task._id}`, options).catch((err) =>
+      console.error(err)
+    )
 
     onOpenChange(false)
   }

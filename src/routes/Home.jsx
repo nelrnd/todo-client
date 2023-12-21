@@ -26,7 +26,7 @@ const Home = () => {
       <div className="max-w-lg m-auto">
         <Header />
         <TaskForm addTask={(t) => setTasks([t, ...tasks])} />
-        <TaskList tasks={tasks} />
+        <TaskList tasks={tasks} setTasks={setTasks} />
       </div>
     </div>
   )
