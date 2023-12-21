@@ -39,6 +39,7 @@ const TaskForm = () => {
           name="name"
           autoComplete="off"
           placeholder="Add a task"
+          required={true}
           value={name}
           onChange={handleNameChange}
           autoFocus
