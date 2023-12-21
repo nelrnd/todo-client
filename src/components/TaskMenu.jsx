@@ -107,7 +107,7 @@ const TaskEditDialog = ({ task, setTasks, onSelect, onOpenChange }) => {
           className="block w-full mb-6 rounded border-gray-300 bg-transparent dark:border-gray-600"
           type="text"
           name="name"
-          required="true"
+          required={true}
           value={newName}
           onChange={handleNameChange}
         />

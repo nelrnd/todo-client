@@ -1,8 +1,10 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { TasksContext } from "../contexts/TasksContext"
 
 const API_BASE = import.meta.env.VITE_API_BASE
 
-const TaskForm = ({ addTask }) => {
+const TaskForm = () => {
+  const { setTasks } = useContext(TasksContext)
   const [name, setName] = useState("")
 
   const handleNameChange = (event) => setName(event.target.value)
@@ -21,8 +23,8 @@ const TaskForm = ({ addTask }) => {
     options.body = JSON.stringify({ name })
     fetch(`${API_BASE}/tasks`, options)
       .then((res) => res.json())
-      .then((data) => {
-        addTask(data)
+      .then((task) => {
+        setTasks((prevTasks) => [task, ...prevTasks])
         setName("")
       })
       .catch((err) => console.error(err))

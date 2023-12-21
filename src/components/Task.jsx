@@ -1,8 +1,12 @@
 import TaskMenu from "./TaskMenu"
+import { useContext } from "react"
+import { TasksContext } from "../contexts/TasksContext"
 
 const API_BASE = import.meta.env.VITE_API_BASE
 
-const Task = ({ task, setTasks }) => {
+const Task = ({ task }) => {
+  const { setTasks } = useContext(TasksContext)
+
   const handleCheck = (event) => {
     const token = localStorage.getItem("token")
     if (!token) return

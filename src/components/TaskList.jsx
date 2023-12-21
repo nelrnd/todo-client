@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import * as RadioGroup from "@radix-ui/react-radio-group"
 import { groupBy } from "core-js/actual/array/group-by"
 import moment from "moment"
 import Task from "./Task"
+import { TasksContext } from "../contexts/TasksContext"
 
 const filters = {
   all: () => true,
@@ -10,7 +11,8 @@ const filters = {
   completed: (task) => task && task.done,
 }
 
-const TaskList = ({ tasks, setTasks }) => {
+const TaskList = () => {
+  const { tasks } = useContext(TasksContext)
   const [filter, setFilter] = useState(() => filters.all)
 
   const currentTasks = tasks
@@ -51,7 +53,7 @@ const TaskList = ({ tasks, setTasks }) => {
           <div key={dayGroup} className="relative">
             <Day timestamp={dayGroup} />
             {currentTasks[dayGroup].map((task) => (
-              <Task key={task._id} task={task} setTasks={setTasks} />
+              <Task key={task._id} task={task} />
             ))}
           </div>
         ))

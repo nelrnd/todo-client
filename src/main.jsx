@@ -7,12 +7,12 @@ import Register from "./routes/Register"
 import Settings from "./routes/Settings"
 import "./index.css"
 import RouteGuard from "./components/RouteGuard"
-import { Layout } from "./routes/Layout"
+import { Root } from "./routes/Root"
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <Root />,
     children: [
       {
         index: true,
