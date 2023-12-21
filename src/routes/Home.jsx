@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import Header from "../components/Header"
 import TaskForm from "../components/TaskForm"
 import TaskList from "../components/TaskList"
 
@@ -22,13 +21,10 @@ const Home = () => {
   }, [])
 
   return (
-    <div className="min-h-screen px-4 py-8 dark:bg-gray-950 dark:text-white">
-      <div className="max-w-lg m-auto">
-        <Header />
-        <TaskForm addTask={(t) => setTasks([t, ...tasks])} />
-        <TaskList tasks={tasks} setTasks={setTasks} />
-      </div>
-    </div>
+    <>
+      <TaskForm addTask={(t) => setTasks([t, ...tasks])} />
+      <TaskList tasks={tasks} setTasks={setTasks} />
+    </>
   )
 }
 

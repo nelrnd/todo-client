@@ -7,15 +7,22 @@ import Register from "./routes/Register"
 import Settings from "./routes/Settings"
 import "./index.css"
 import RouteGuard from "./components/RouteGuard"
+import { Layout } from "./routes/Layout"
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <RouteGuard>
-        <Home />
-      </RouteGuard>
-    ),
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
+      },
+    ],
   },
   {
     path: "/register",
