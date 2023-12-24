@@ -5,7 +5,7 @@ import { TasksContext } from "../contexts/TasksContext"
 
 const API_BASE = import.meta.env.VITE_API_BASE
 
-export const Root = () => {
+const Root = () => {
   const [tasks, setTasks] = useState([])
 
   // Fetch tasks
@@ -32,3 +32,5 @@ export const Root = () => {
     </TasksContext.Provider>
   )
 }
+
+export default Root

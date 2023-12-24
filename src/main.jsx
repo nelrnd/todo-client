@@ -1,21 +1,24 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import Root from "./routes/Root"
 import Home from "./routes/Home"
 import Login from "./routes/Login"
 import Register from "./routes/Register"
 import Settings from "./routes/Settings"
+import {
+  AuthRouteRedirect,
+  NotAuthRouteRedirect,
+} from "./components/RouteRedirect"
 import "./index.css"
-import RouteGuard from "./components/RouteGuard"
-import { Root } from "./routes/Root"
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <RouteGuard>
+      <AuthRouteRedirect>
         <Root />
-      </RouteGuard>
+      </AuthRouteRedirect>
     ),
     children: [
       {
@@ -30,15 +33,23 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
-    element: <Register />,
+    element: (
+      <NotAuthRouteRedirect>
+        <Register />
+      </NotAuthRouteRedirect>
+    ),
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <NotAuthRouteRedirect>
+        <Login />
+      </NotAuthRouteRedirect>
+    ),
   },
 ])
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.body).render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
